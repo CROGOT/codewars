@@ -1,3 +1,5 @@
+//https://www.codewars.com/kata/58c5577d61aefcf3ff000081/train/javascript
+// не завершено !!!!!
 function encodeRailFenceCipher(string, n) {
   const m = (new Array(n)).fill('');
   for(let i=0; i*(n-1)*2 < string.length+n;i++){
