@@ -1,5 +1,5 @@
 //https://www.codewars.com/kata/58a3a735cebc0630830000c0/train/javascript
-
+//ok
 function stringConstructing(a, s) {
   let out=0, i=0;
   while (i<s.length){
