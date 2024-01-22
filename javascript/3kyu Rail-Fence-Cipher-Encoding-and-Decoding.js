@@ -52,3 +52,9 @@ console.log(decodeRailFenceCipher(encodeRailFenceCipher("01234567890ab", 4),4));
 //console.log(encodeRailFenceCipher("WEAREDISCOVEREDFLEEATONCE", 3)); //WECRLTEERDSOEEFEAOCAIVDEN
 //console.log(encodeRailFenceCipher("Hello, World!", 3)); //Hoo!el,Wrdl l
 
+
+/*
+W       E       C       R       L       T       E
+  E   R   D   S   O   E   E   F   E   A   O   C  
+    A       I       V       D       E       N    
+*/

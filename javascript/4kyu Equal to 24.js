@@ -1,4 +1,5 @@
 //https://www.codewars.com/kata/574be65a974b95eaf40008da/train/javascript
+//ok
 const hash={};
 
 const formula =[

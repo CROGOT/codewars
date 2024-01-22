@@ -1,4 +1,6 @@
 //https://www.codewars.com/kata/5679d5a3f2272011d700000d/train/javascript
+// timeOut !!!!!!
+
 var expected = [[ 5, 2, 6, 1, 4, 3 ], 
                 [ 6, 4, 3, 2, 5, 1 ], 
                 [ 3, 1, 5, 4, 6, 2 ], 

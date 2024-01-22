@@ -1,4 +1,6 @@
 //https://www.codewars.com/kata/5671d975d81d6c1c87000022/train/javascript
+//ok !!!!
+
 var clues =[0, 0, 1, 2,
             0, 2, 0, 0,
             0, 3, 0, 0,
