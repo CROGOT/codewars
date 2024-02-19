@@ -1,5 +1,2 @@
 <?php
-// while($arr[$i]>0)
-    //   $count=0;
-    //   for($j=$i; $j<=$i+$groupLen; $j++)
-    //     //if($arr[$j]==0)
+p312(F2LF2R)2q
