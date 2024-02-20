@@ -1,10 +1,8 @@
 <?php
 //https://www.codewars.com/kata/594b898169c1d644f900002e/train/php
-//
+//ok
 
 global $out, $stek, $branch_stek, $v, $vector, $x, $y, $xMin, $yMin, $xMax, $yMax;
-
-
 function execute(string $code): string {
   global $out, $stek, $branch_stek, $v, $vector, $x, $y, $xMin, $yMin, $xMax, $yMax;
 
@@ -24,27 +22,18 @@ function execute(string $code): string {
     switch ($s[0]) {
       case 'R':
       case 'F':
-      case 'L':
-        $stek[$branch][]=[$s[0],$number];
-        break;
-      case '(':
-        $stek[$branch][]=[$s[0],0];
-        break;
+      case 'L': $stek[$branch][]=[$s[0],$number]; break;
+      case '(': $stek[$branch][]=[$s[0],0];       break;
       case 'p':
-        if(array_key_exists($number, $stek)) throw new ParseError('InvalidDefinitionOverwrite');
-        $branch_stek[]=$number;
-        $stek[$number]=[]; // созаем подмассив под новую функцию
+        if(array_key_exists('P'.$number, $stek)) throw new ParseError('InvalidDefinitionOverwrite');
+        $branch_stek[]='P'.$number;
+        $stek['P'.$number]=[]; // созаем подмассив под новую функцию
+       // var_dump($branch_stek);
         break;  
-      case 'q':
-        array_pop($branch_stek);
-        break;   
+      case 'q': array_pop($branch_stek); break;   
       case 'P':
-        if(in_array($number, $branch_stek)) {
-          echo json_encode($branch_stek, true),"P",$number,"\n";
-          throw new ParseError('InfiniteRecursion');
-          }
-        $stek[$branch][]=[$s[0],$number];
-        //array_push($stek[$branch], ...$stek[$number]);
+        if(in_array($s, $branch_stek)) throw new ParseError('InfiniteRecursion');
+        $stek[$branch][]=[$s,$number];
         break;   
       case ')': //если ) - то достем все из стека во временный массив
         $temp=[];
@@ -59,10 +48,11 @@ function execute(string $code): string {
         break;
     }
   }
-  //echo json_encode($r[0]),"\n";
-  do_commands('main');
-  echo json_encode($stek),"\n";
-  //print_r($out);
+  //  echo json_encode($stek),"\n";
+
+  $branch_stek=[];// обнуляем стек
+  do_commands('main');//заполняем поле
+
   for($i=$xMin; $i<=$xMax; $i++)
     for($j=$yMin; $j<=$yMax; $j++)
       if(!array_key_exists($i, $out[$j])) $out[$j][$i]=' '; // заполняем остальные ячейки пробелами
@@ -70,21 +60,16 @@ function execute(string $code): string {
   foreach($out as &$v) ksort($v);//сортируем строки
   $out=array_map(function($v){return join($v);}, $out); //переводим строки в строки
   $out=join("\r\n",array_reverse($out)); // переводим перевернутый(т.к. плюс идет вниз) массив в строку разделенный \r\n
-  echo json_encode($out),"\n";
+  // echo json_encode($out),"\n";
   return $out;
 }
-
 function do_commands($branch){
-   global $out, $stek, $branch_stek, $v, $vector, $x, $y, $xMin, $yMin, $xMax, $yMax;
-   if(!array_key_exists($branch, $stek)) throw new ParseError('Item not found');
-  //var_dump($stek);
-  //echo $out, $stek, $v, $vector, $x, $y, $xMin, $yMin, $xMax, $yMax;
-  
+  global $out, $stek, $branch_stek, $v, $vector, $x, $y, $xMin, $yMin, $xMax, $yMax;
+  $branch_stek[]=$branch;//добавляем выполнение ветки (функции)  в стек выполнения (для проверок на рекурсию)
+  if(!array_key_exists($branch, $stek)) throw new ParseError('InvalidInvocation1');
   foreach($stek[$branch] as $s)//пробегаемся по стеку комманд и выполняем их
     switch ($s[0]) {
-      case 'R':
-        $vector=($vector+$s[1])%4;
-        break;
+      case 'R': $vector=($vector+$s[1])%4; break;
       case 'L':
         $vector-=$s[1];
         while($vector<0) $vector+=4;
@@ -100,12 +85,13 @@ function do_commands($branch){
         $xMax=max($xMax,$x);
         $yMax=max($yMax,$y);
         break;
-      case 'P':
-        do_commands($s[1]);
-        break; 
+      //case 'P':
       default:
-        break;
+        if(in_array($s[0],$branch_stek)) throw new ParseError('InfiniteMutualRecursion');//если в стеке уже есть она же, то ошибка
+        do_commands($s[0]);//если функция запускаем
+        break; 
     }
+  array_pop($branch_stek);
 }
 
 //echo execute("FLF5RF3RF3RF7");
