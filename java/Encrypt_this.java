@@ -1,9 +1,6 @@
 //https://www.codewars.com/kata/5848565e273af816fb000449/java
 //ok
 
-
-
-import java.util.Arrays;
 public class Encrypt_this {
   public static void main(String[] args) {
     System.out.println(Kata.encryptThis("The more he saw the less he spoke"));
